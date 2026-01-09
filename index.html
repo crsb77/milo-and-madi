@@ -4,108 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Milo & Madi - Agent Access</title>
-    <!-- Use standard Tailwind CDN -->
+    
+    <!-- External Tools (Tailwind + Fonts) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <!-- Use reliable unpkg link for Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        /* BASE STYLES */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f9ff; /* Sky-50 */
+            background-color: #f3e8ff; /* Purple-100 */
+            color: #3b0764; /* Purple-950 */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
         h1, h2, h3 {
             font-family: 'Fredoka', sans-serif;
         }
-        .tooth-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+        /* SAFETY STYLES: These ensure the box looks good even if Tailwind fails */
+        #login-container, #content-container {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: auto;
+        }
+        
+        /* Icon styling */
+        .icon-circle {
+            background-color: #f3e8ff; /* Purple-100 */
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            font-size: 40px;
+        }
+
+        /* Input & Button Styling */
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #e9d5ff; /* Purple-200 */
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box; /* Fix padding issues */
+        }
+        input[type="password"]:focus {
+            border-color: #9333ea; /* Purple-600 */
+            outline: none;
+        }
+        .btn-primary {
+            background-color: #9333ea; /* Purple-600 */
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #7e22ce; /* Purple-700 */
+        }
+
+        /* Hidden Utility */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 text-slate-800">
+<body>
 
-    <!-- LOGIN CONTAINER (Visible by default) -->
-    <div id="login-container" class="w-full max-w-md bg-white rounded-2xl tooth-shadow p-8 text-center transition-all duration-500">
-        <div class="mb-6 flex justify-center">
-            <!-- Icon -->
-            <div class="bg-sky-100 p-4 rounded-full">
-                <i data-lucide="smile" class="w-12 h-12 text-sky-500"></i>
-            </div>
+    <!-- LOGIN CONTAINER -->
+    <div id="login-container">
+        <div class="icon-circle">
+            <!-- SMILEY FACE EMOJI -->
+            🙂
         </div>
-        <h1 class="text-3xl font-bold text-slate-900 mb-2">Restricted Access</h1>
-        <p class="text-slate-500 mb-8">Please enter the password to access the materials for <span class="font-semibold text-sky-500">Milo & Madi</span>.</p>
         
-        <form onsubmit="checkPassword(event)" class="space-y-4">
-            <div>
-                <input type="password" id="password-input" placeholder="Enter Password" 
-                    class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-center text-lg placeholder:text-slate-400">
-            </div>
-            <button type="submit" 
-                class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-lg transition-colors shadow-lg hover:shadow-xl transform active:scale-95 duration-200">
-                Unlock Materials
-            </button>
-            <p id="error-message" class="text-red-500 text-sm font-semibold hidden mt-2">Incorrect password. Please try again.</p>
+        <h1 class="text-3xl font-bold mb-2">Restricted Access</h1>
+        <p class="text-slate-500 mb-6">Please enter the password to access the materials for <span class="font-semibold text-purple-600">Milo & Madi</span>.</p>
+        
+        <form onsubmit="checkPassword(event)">
+            <input type="password" id="password-input" placeholder="Enter Password">
+            <button type="submit" class="btn-primary">Unlock Materials</button>
+            <p id="error-message" class="text-red-500 text-sm font-semibold hidden mt-3">Incorrect password. Please try again.</p>
         </form>
     </div>
 
     <!-- CONTENT CONTAINER (Hidden by default) -->
-    <div id="content-container" class="hidden w-full max-w-2xl bg-white rounded-2xl tooth-shadow overflow-hidden">
+    <div id="content-container" class="hidden">
         <!-- Header -->
-        <div class="bg-sky-500 p-8 text-center text-white">
+        <div class="bg-purple-600 p-8 text-center text-white" style="background-color: #9333ea; margin: -40px -40px 30px -40px; padding: 40px; border-radius: 16px 16px 0 0;">
             <h2 class="text-2xl font-medium mb-1 opacity-90">Milo and Madi</h2>
             <h1 class="text-5xl font-bold mb-3 tracking-tight">A Tooth Story</h1>
-            <p class="text-sky-100 text-lg">A graphic novel by Chris Bailey and Joseph Bailey</p>
+            <p class="text-purple-100 text-lg">A graphic novel by Chris Bailey and Joseph Bailey</p>
         </div>
 
-        <!-- Downloads Section -->
-        <div class="p-8 md:p-12 space-y-6">
-            <div class="text-center mb-8">
-                <p class="text-slate-600">Thank you for your interest. Please find the requested materials below.</p>
+        <p class="text-slate-600 mb-8">Thank you for your interest. Please find the requested materials below.</p>
+
+        <!-- Download 1 -->
+        <a href="#" id="link-draft" target="_blank" class="block mb-4 group" style="text-decoration: none;">
+            <div class="border-2 border-slate-100 rounded-xl p-4 flex items-center hover:border-purple-400 hover:bg-purple-50 transition-all cursor-pointer text-left">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                    <i data-lucide="file-text" class="w-6 h-6 text-indigo-600"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">Fully Illustrated Draft</h3>
+                    <p class="text-slate-500 text-sm">PDF Document • Complete Manuscript</p>
+                </div>
             </div>
+        </a>
 
-            <!-- Download 1: Full Draft -->
-            <a href="#" id="link-draft" target="_blank" class="group block">
-                <div class="border-2 border-slate-100 rounded-xl p-6 flex items-center hover:border-sky-400 hover:bg-sky-50 transition-all duration-300 cursor-pointer">
-                    <div class="bg-indigo-100 p-4 rounded-lg mr-6 group-hover:bg-indigo-200 transition-colors">
-                        <i data-lucide="file-text" class="w-8 h-8 text-indigo-500"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-sky-600">Fully Illustrated Draft</h3>
-                        <p class="text-slate-500 text-sm">PDF Document • Complete Manuscript</p>
-                    </div>
-                    <div class="text-slate-300 group-hover:text-sky-500 transition-colors">
-                        <i data-lucide="download" class="w-6 h-6"></i>
-                    </div>
+        <!-- Download 2 -->
+        <a href="#" id="link-proposal" target="_blank" class="block group" style="text-decoration: none;">
+            <div class="border-2 border-slate-100 rounded-xl p-4 flex items-center hover:border-purple-400 hover:bg-purple-50 transition-all cursor-pointer text-left">
+                <div class="bg-fuchsia-100 p-3 rounded-lg mr-4">
+                    <i data-lucide="book-open" class="w-6 h-6 text-fuchsia-600"></i>
                 </div>
-            </a>
-
-            <!-- Download 2: Proposal Packet -->
-            <a href="#" id="link-proposal" target="_blank" class="group block">
-                <div class="border-2 border-slate-100 rounded-xl p-6 flex items-center hover:border-sky-400 hover:bg-sky-50 transition-all duration-300 cursor-pointer">
-                    <div class="bg-cyan-100 p-4 rounded-lg mr-6 group-hover:bg-cyan-200 transition-colors">
-                        <i data-lucide="book-open" class="w-8 h-8 text-cyan-600"></i>
-                    </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-sky-600">Proposal Packet</h3>
-                        <p class="text-slate-500 text-sm">PDF Document • Pitch, Bios, Marketing & Sample Pages</p>
-                    </div>
-                    <div class="text-slate-300 group-hover:text-sky-500 transition-colors">
-                        <i data-lucide="download" class="w-6 h-6"></i>
-                    </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">Proposal Packet</h3>
+                    <p class="text-slate-500 text-sm">PDF Document • Pitch, Bios, Marketing</p>
                 </div>
-            </a>
+            </div>
+        </a>
 
-        </div>
-        
         <!-- Footer -->
-        <div class="bg-slate-50 p-6 text-center border-t border-slate-100">
+        <div class="mt-8 pt-6 border-t border-slate-100">
             <p class="text-slate-500 text-sm">© Chris Bailey and Joseph Bailey. Confidential materials for review only.</p>
-            <a href="mailto:crsbailey@gmail.com" class="text-sky-600 text-sm font-semibold mt-1 hover:underline">crsbailey@gmail.com</a>
+            <a href="mailto:crsbailey@gmail.com" class="text-purple-600 text-sm font-semibold hover:underline">crsbailey@gmail.com</a>
         </div>
     </div>
 
     <script>
-        // Use event listener to safely load icons
+        // Load icons safely
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
@@ -113,17 +162,16 @@
         });
 
         // --- CONFIGURATION ---
-        const PASSWORD = "pudding"; // Password set to lowercase
+        const PASSWORD = "pudding"; 
         
-        // PASTE YOUR GOOGLE DRIVE LINKS HERE
-        const LINK_DRAFT = "#"; 
-        const LINK_PROPOSAL = "#";
+        // GOOGLE DRIVE LINKS
+        const LINK_DRAFT = "https://drive.google.com/file/d/1huGN6JgvO8dt-igiMuaooABrqLBmImKl/view?usp=sharing"; 
+        const LINK_PROPOSAL = "https://drive.google.com/file/d/1R2KpcdMTVgju1Wrx50GUdunEzs65tFbw/view?usp=sharing";
         // ---------------------
 
-        // Set links on load
+        // Set links
         const linkDraftEl = document.getElementById('link-draft');
         const linkPropEl = document.getElementById('link-proposal');
-        
         if(linkDraftEl) linkDraftEl.href = LINK_DRAFT;
         if(linkPropEl) linkPropEl.href = LINK_PROPOSAL;
 
@@ -135,46 +183,18 @@
             const contentContainer = document.getElementById('content-container');
 
             if (input === PASSWORD) {
-                // Success: Hide login, show content
+                // Success
                 errorMsg.classList.add('hidden');
-                loginContainer.style.opacity = '0';
+                loginContainer.style.display = 'none'; // Instant hide for robustness
+                contentContainer.classList.remove('hidden');
                 
-                setTimeout(() => {
-                    loginContainer.classList.add('hidden');
-                    contentContainer.classList.remove('hidden');
-                    // Small animation for content appearing
-                    contentContainer.style.opacity = '0';
-                    contentContainer.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        contentContainer.style.transition = 'all 0.5s ease';
-                        contentContainer.style.opacity = '1';
-                        contentContainer.style.transform = 'translateY(0)';
-                    }, 50);
-                }, 500); // Wait for fade out
+                // Add max-width specific to content view
+                contentContainer.style.maxWidth = "600px";
             } else {
                 // Error
                 errorMsg.classList.remove('hidden');
-                // Shake animation
-                loginContainer.classList.add('animate-shake');
-                setTimeout(() => {
-                    loginContainer.classList.remove('animate-shake');
-                }, 500);
             }
         }
-
-        // Add shake animation style dynamically
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-            .animate-shake {
-                animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
